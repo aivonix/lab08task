@@ -48,6 +48,6 @@ class Parking extends Model
      */
     public function parkingLot()
     {
-        return $this->belongsTo(ParkingLot::class, 'parking_id');
+        return $this->belongsTo(ParkingLot::class, 'parking_lot_id');
     }
 }

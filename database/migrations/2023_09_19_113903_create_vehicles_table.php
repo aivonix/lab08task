@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('discount_card_id');
+            $table->unsignedBigInteger('category_id')->default(1);
+            $table->unsignedBigInteger('discount_card_id')->default(1);
             $table->string('plate_number', 10)->unique();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->string('description')->nullable();
+            $table->foreign('category_id')->references('id')->on('vehicle_categories');
             $table->foreign('discount_card_id')->references('id')->on('discounts');
             $table->timestamps();
         });

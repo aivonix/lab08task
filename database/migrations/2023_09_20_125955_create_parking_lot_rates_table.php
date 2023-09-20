@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('discount_cards', function (Blueprint $table) {
+        Schema::create('parking_lot_rates', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 12)->unique(); // 12-character discount code
-            $table->unsignedBigInteger('discount_id');
-            $table->boolean('is_active')->default(true);
+            $table->foreignId('parking_lot_id')->constrained();
+            $table->string('category');
+            $table->decimal('day_rate', 5, 2);
+            $table->decimal('night_rate', 5, 2);
             $table->timestamps();
-            $table->foreign('discount_id')->references('id')->on('discounts');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('discount_cards');
+        Schema::dropIfExists('parking_lot_rates');
     }
 };

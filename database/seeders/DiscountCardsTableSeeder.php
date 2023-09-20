@@ -17,6 +17,7 @@ class DiscountCardsTableSeeder extends Seeder
             DB::table('discount_cards')->insert([
                 'code' => Str::random(12), // Generate a random 12-character code
                 'discount_id' => rand(1, 3), // Generate a random value between 1 and 3
+                'created_at' => now(),
             ]);
         }
     }

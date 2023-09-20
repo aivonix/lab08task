@@ -30,8 +30,16 @@ class ParkingLot extends Model
     /**
      * Get the parkings associated with the parking lot.
      */
-    public function parkings()
+    public function parking()
     {
-        return $this->hasMany(Parking::class, 'parking_id');
+        return $this->hasMany(Parking::class, 'parking_lot_id');
+    }
+
+    /**
+     * Get the Rates associated with the parking lot.
+     */
+    public function parkingLotRates()
+    {
+        return $this->hasMany(ParkingLotRate::class);
     }
 }

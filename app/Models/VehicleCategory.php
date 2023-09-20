@@ -14,14 +14,14 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Category extends Model
+class VehicleCategory extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'vehicle_categories';
 
     /**
      * The attributes that are mass assignable.
@@ -31,4 +31,9 @@ class Category extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function vehicle()
+    {
+        return $this->hasOne(Vehicle::class, 'category_id');
+    }
 }

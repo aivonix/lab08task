@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ParkingLotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('homepage');
 
 
-Route::get('/parking-lot-empty-spaces', 'ParkingLotController@getEmptySpaces')->name('parking.empty-spaces');
+Route::get('/parking-lot-empty-spaces', [ParkingLotController::class, 'getEmptySpaces'])->name('parking.empty-spaces');
+Route::get('/check-vehicle-expense', [ParkingLotController::class, 'checkVehicleExpense'])->name('check-vehicle-expense');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

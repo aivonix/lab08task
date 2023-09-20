@@ -33,12 +33,30 @@ class Vehicle extends Model
         'discount_id',
     ];
 
+    // Listen for the 'creating' event
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($vehicle) {
+            $vehicle->plate_number = static::generateRandomPlateNumber();
+        });
+    }
+
     /**
      * Get the category associated with the vehicle.
      */
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(VehicleCategory::class, 'category_id');
+    }
+
+    /**
+     * Get the category associated with the vehicle.
+     */
+    public function parking()
+    {
+        return $this->hasMany(Parking::class, 'vehicle_id');
     }
 
     /**
@@ -47,5 +65,18 @@ class Vehicle extends Model
     public function discount()
     {
         return $this->belongsTo(Discount::class, 'discount_id');
+    }
+
+    // Generate a random 10-character plate number
+    protected static function generateRandomPlateNumber()
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $plateNumber = '';
+
+        for ($i = 0; $i < 10; $i++) {
+            $plateNumber .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $plateNumber;
     }
 }

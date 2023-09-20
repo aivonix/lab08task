@@ -19,11 +19,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-            CategoriesTableSeeder::class,
+            VehicleCategoriesTableSeeder::class,
             DiscountsTableSeeder::class,
             DiscountCardsTableSeeder::class,
             ParkingLotSeeder::class,
+            VehicleSeeder::class,
             ParkingSeeder::class,
+            ParkingLotRatesSeeder::class,
         ]);
     }
 }
