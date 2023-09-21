@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/check-vehicle-expense', [ParkingLotController::class, 'checkVehicleExpense'])->name('api-check-vehicle-expense');
+Route::post('/api/enter-parking', [ParkingLotController::class, 'enterParking']);

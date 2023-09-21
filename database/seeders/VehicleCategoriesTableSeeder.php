@@ -13,9 +13,9 @@ class VehicleCategoriesTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('vehicle_categories')->insert([
-            ['name' => 'A'],
-            ['name' => 'B'],
-            ['name' => 'C'],
+            ['name' => 'A', 'spaces' => 1],
+            ['name' => 'B', 'spaces' => 2],
+            ['name' => 'C', 'spaces' => 4],
         ]);
     }
 }

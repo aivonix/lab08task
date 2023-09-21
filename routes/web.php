@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ParkingLotController;
+use App\Http\Controllers\ParkingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,8 +20,11 @@ Route::get('/', function () {
 })->name('homepage');
 
 
-Route::get('/parking-lot-empty-spaces', [ParkingLotController::class, 'getEmptySpaces'])->name('parking.empty-spaces');
-Route::get('/check-vehicle-expense', [ParkingLotController::class, 'checkVehicleExpense'])->name('check-vehicle-expense');
+Route::get('/parking-lot-empty-spaces', [ParkingController::class, 'getEmptySpaces'])->name('parking.empty-spaces');
+Route::get('/check-vehicle-expense', [ParkingController::class, 'checkVehicleExpense'])->name('check-vehicle-expense');
+
+Route::get('/enter-parking', [ParkingController::class, 'showEntryForm'])->name('enter-parking');
+Route::post('/enter-parking', [ParkingController::class, 'enterParking'])->name('process-entry');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

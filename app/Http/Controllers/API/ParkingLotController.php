@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
-use App\Models\Parking;
 use App\Models\Vehicle;
 use DateTime;
 use Illuminate\Http\Request;
@@ -53,11 +52,9 @@ class ParkingLotController extends Controller
     public function calculateParkingFee(Vehicle $vehicle)
     {
         $entryTime = new DateTime($vehicle->parking->first()->entry_time);
-
-        // Get the current time
         $currentTime = new DateTime();
 
-        // Calculate the time difference in hours
+        // Calculate the total time difference in hours
         $totalHourDifference = $entryTime->diff($currentTime)->h + $entryTime->diff($currentTime)->d * 24;
 
         $dayRate = 0;
@@ -81,11 +78,10 @@ class ParkingLotController extends Controller
             $entryTime->modify('+1 hour');
         }
 
-        // Calculate the total fee
         $totalFee = $dayRate + $nightRate;
 
         // Apply the discount if applicable
-        $discountPercentage = $vehicle->discount->percentage ?? 0;
+        $discountPercentage = $vehicle->discount->percentage;
 
         if ($discountPercentage > 0) {
             $totalFee = $totalFee * (1 - ($discountPercentage / 100));

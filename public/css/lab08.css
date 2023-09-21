@@ -1,0 +1,9 @@
+
+.discountCard{
+}
+.discountCard.hidden{
+    display: none;
+}
+button[type="submit"]{
+    background: #bbdec8!important;
+}

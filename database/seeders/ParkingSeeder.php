@@ -45,7 +45,7 @@ class ParkingSeeder extends Seeder
             $parkingEntry = Parking::where('name', $parkingName)->first();
 
             if ($parkingEntry) {
-                $parkingEntry->update(['entry_time' => now()]);
+                $parkingEntry->update(['entry_time' => now(), 'vehicle_id' => '2']);
             } 
         } else {
             // Handle the case where the "lab08" parking lot was not found
