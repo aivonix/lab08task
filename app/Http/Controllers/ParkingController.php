@@ -19,6 +19,10 @@ use Illuminate\Validation\ValidationException;
  */
 class ParkingController extends Controller
 {
+
+    private $emtpy_vehicle = 1;
+    private $default_discount = 1;
+
     /**
      * Display the current number of empty spaces in a parking lot.
      *
@@ -29,7 +33,7 @@ class ParkingController extends Controller
     {
         $parkingLot = ParkingLot::find(1); // Replace 1 with the actual parking lot ID
 
-        return view('empty-spaces', ['parkingLot' => $parkingLot]);
+        return view('parking/empty-spaces', ['parkingLot' => $parkingLot]);
     }
 
     /**
@@ -40,7 +44,7 @@ class ParkingController extends Controller
      */
     public function checkVehicleExpense(Request $request)
     {
-        return view('vehicle-expense');
+        return view('parking/vehicle-expense');
     }
 
     public function showEntryForm()
@@ -48,7 +52,7 @@ class ParkingController extends Controller
         $discountCards = DiscountCard::where('is_active', true)->get();
         $vehicleCategories = VehicleCategory::all();
 
-        return view('entry-form', ['discountCards' => $discountCards, 'vehicleCategories' => $vehicleCategories]);
+        return view('parking/entry-form', ['discountCards' => $discountCards, 'vehicleCategories' => $vehicleCategories]);
     }
 
     /**
@@ -64,19 +68,18 @@ class ParkingController extends Controller
             
             $validatedData = $request->validate([
                 'vehicle_category_id' => 'required|numeric',
-                'plate_number' => 'required|regex:/^[A-Za-z0-9]+$/',
+                'plate_number' => 'required|string|size:10',
             ]);
     
             if(!empty($request->discount_card)){ // had to have this because the _unless rules weren't working as intended
                 $temp = $request->validate([
-                    'discount_card' => 'regex:/^[A-Za-z0-9]+$/',
+                    'discount_card' => 'string|size:12',
                 ]);
                 $validatedData['discount_card'] = $temp['discount_card'];
             }
-    
-            $vehicle = Vehicle::firstOrNew(['plate_number' => $validatedData['plate_number']]);
-            if(!$vehicle->exists){
-                $vehicle->discount_id = 1;  // default 0 percentage discount
+            $vehicle = Vehicle::firstOrCreate(['plate_number' => $validatedData['plate_number']]);
+            if($vehicle->wasRecentlyCreated){
+                $vehicle->discount_id = $this->default_discount;  // default 0 percentage discount
                 $vehicle->category_id = $validatedData['vehicle_category_id'];
             }
             $vehicle->save();
@@ -87,7 +90,7 @@ class ParkingController extends Controller
                 if ($discountCard && $discountCard->is_active) {
                     $discountCard->is_active = false;
                     $discountCard->save();
-                    $vehicle->discount_id = $discountCard->id;
+                    $vehicle->discount_id = $discountCard->discount->id;
                     $vehicle->save();
                 } else {
                     throw ValidationException::withMessages(['discount_card' => ['Invalid discount card.']]);
@@ -116,10 +119,10 @@ class ParkingController extends Controller
             DB::rollback();
     
             // Handle the error or return with errors
-            return redirect()->route('homepage')->withErrors('msg', 'An error occurred: ' . $e->getMessage());
+            throw $e;
         }
         
-        return redirect()->route('homepage')->with('success', 'Vehicle entry recorded successfully.');
+        return redirect()->route('homepage')->with('message', 'Vehicle entry recorded successfully.');
     }
 
 
@@ -166,5 +169,49 @@ class ParkingController extends Controller
         }
 
         return [];
+    }
+    /**
+     * Display the exit form for vehicles leaving the parking lot.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showExitForm()
+    {
+        return view('parking.exit-form');
+    }
+
+    /**
+     * Handle vehicle exit from the parking lot.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function exitParking(Request $request)
+    {
+        $validatedData = $request->validate([
+            'plate_number' => 'required|string|size:10', 
+        ]);
+
+        $vehicle = Vehicle::where('plate_number', $validatedData['plate_number'])->first();
+        
+        if (!$vehicle->id) {
+            return back()->withErrors(['message', 'Vehicle not found.']);
+        }
+        
+        $parkingEntries = Parking::where('vehicle_id', $vehicle->id)->get();
+
+        if (count($parkingEntries) <= 0) {
+            return back()->withErrors(['message', 'Your car is not in the parking.']);
+        }
+        
+        // calculate this before we remove the parking entries
+        $parkingFee = app('App\Http\Controllers\API\ParkingLotController')->calculateParkingFee($vehicle); // doesn't matter which vehicle entry we select from parking,they are the same car
+        foreach ($parkingEntries as $parkingEntry) {
+            $parkingEntry->vehicle_id = $this->emtpy_vehicle; 
+            $parkingEntry->entry_time = null;
+            $parkingEntry->save();
+        }
+
+        return redirect()->route('homepage')->with('message', 'Vehicle exit successful. Parking fee: ' . $parkingFee);
     }
 }

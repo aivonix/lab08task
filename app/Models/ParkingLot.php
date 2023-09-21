@@ -42,4 +42,16 @@ class ParkingLot extends Model
     {
         return $this->hasMany(ParkingLotRate::class);
     }
+
+    /**
+     * Calculate the number of empty slots in the parking lot.
+     *
+     * @return int
+     */
+    public function calculateEmptySlots()
+    {
+        return Parking::where('parking_lot_id', $this->id)
+            ->whereNull('entry_time')
+            ->count();
+    }
 }

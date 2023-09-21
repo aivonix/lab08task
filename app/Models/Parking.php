@@ -50,4 +50,29 @@ class Parking extends Model
     {
         return $this->belongsTo(ParkingLot::class, 'parking_lot_id');
     }
+/**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Listen for the 'created' and 'deleted' events
+        static::updated(function ($parking) {
+            $parking->updateParkingLotEmptySlots();
+        });
+    }
+
+    /**
+     * Update the empty_slots count in the related ParkingLot model.
+     */
+    protected function updateParkingLotEmptySlots()
+    {
+        $parkingLot = $this->parkingLot;
+        if ($parkingLot) {
+            $parkingLot->empty_slots = $parkingLot->calculateEmptySlots();
+            $parkingLot->save();
+        }
+    }
+
 }

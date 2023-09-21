@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class ParkingLotController extends Controller
 {
+    /**
+     * Check the parking fee for a vehicle based on its plate number.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function checkVehicleExpense(Request $request): JsonResponse
     {
         try {
@@ -51,6 +57,9 @@ class ParkingLotController extends Controller
      */
     public function calculateParkingFee(Vehicle $vehicle)
     {
+        if (count($vehicle->parking) <= 0) {
+            throw new \Exception('Your vehicle does not have a registered slot with this parking. Thank you for being a recurring customer!');
+        }
         $entryTime = new DateTime($vehicle->parking->first()->entry_time);
         $currentTime = new DateTime();
 

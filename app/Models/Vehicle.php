@@ -34,14 +34,14 @@ class Vehicle extends Model
     ];
 
     // Listen for the 'creating' event
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+        // parent::boot();
 
-        static::creating(function ($vehicle) {
-            $vehicle->plate_number = static::generateRandomPlateNumber();
-        });
-    }
+        // static::creating(function ($vehicle) {
+        //     $vehicle->plate_number = static::generateRandomPlateNumber();
+        // });
+    // }
 
     /**
      * Get the category associated with the vehicle.
@@ -68,7 +68,7 @@ class Vehicle extends Model
     }
 
     // Generate a random 10-character plate number
-    protected static function generateRandomPlateNumber()
+    public static function generateRandomPlateNumber()
     {
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $plateNumber = '';

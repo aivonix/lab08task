@@ -13,14 +13,15 @@ class VehicleSeeder extends Seeder
         // Insert the "0 car" entry
         DB::table('vehicles')->insert([
             'description' => 'Empty Parking Space',
-            'plate_number' => 'EMPTY',  //this allows us to insert a default plate number for default car. When using the create method, however, it will generate a nameplate based on the logic in the Vehicle Model 
+            'plate_number' => 'EMPTY',  
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        // This is the actual use of the create method from the Vehicle Model. We will create a tester car as well with this seed.
+        // We will create a tester car as well with the use of the static method for the plate number
         Vehicle::create([
             'description' => 'Tester Car',
+            'plate_number' => Vehicle::generateRandomPlateNumber(),
             'created_at' => now(),
             'updated_at' => now(),
         ]);

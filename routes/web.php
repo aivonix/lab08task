@@ -26,6 +26,9 @@ Route::get('/check-vehicle-expense', [ParkingController::class, 'checkVehicleExp
 Route::get('/enter-parking', [ParkingController::class, 'showEntryForm'])->name('enter-parking');
 Route::post('/enter-parking', [ParkingController::class, 'enterParking'])->name('process-entry');
 
+Route::get('/exit-parking', [ParkingController::class, 'showExitForm'])->name('exit-form');
+Route::post('/exit-parking', [ParkingController::class, 'exitParking'])->name('exit-parking');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
