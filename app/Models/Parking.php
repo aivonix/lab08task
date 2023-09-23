@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -34,6 +34,8 @@ class Parking extends Model
         'vehicle_id',
         'parking_id',
     ];
+    
+    use HasFactory;
 
     /**
      * Get the vehicle associated with the parking.

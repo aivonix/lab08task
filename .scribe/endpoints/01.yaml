@@ -1,0 +1,230 @@
+name: 'Parking Lot Management'
+description: |-
+
+  Handle vehicle entry into the parking lot.
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/enter-parking
+    metadata:
+      groupName: 'Parking Lot Management'
+      groupDescription: |-
+
+        Handle vehicle entry into the parking lot.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Handle vehicle entry into the parking lot.'
+      description: 'Enter the vehicles and validate their data'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      vehicle_category_id:
+        name: vehicle_category_id
+        description: 'Vehicle Category ID.'
+        required: true
+        example: 27
+        type: integer
+        enumValues: []
+        custom: []
+      plate_number:
+        name: plate_number
+        description: 'Plate number of the vehicle.'
+        required: true
+        example: NNNNN23131
+        type: string
+        enumValues: []
+        custom: []
+      discount_card:
+        name: discount_card
+        description: |-
+          Discount card code.
+
+           @response {
+              "success": true,
+              "data": {
+                  "message": "Vehicle entry recorded successfully."
+              }
+          }
+        required: false
+        example: quis
+        type: string
+        enumValues: []
+        custom: []
+    cleanQueryParameters:
+      vehicle_category_id: 27
+      plate_number: NNNNN23131
+      discount_card: quis
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/exit-parking
+    metadata:
+      groupName: 'Parking Lot Management'
+      groupDescription: |-
+
+        Handle vehicle entry into the parking lot.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Handle vehicle exit from the parking lot.'
+      description: 'Exit the vehicle from the parking lot'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      plate_number:
+        name: plate_number
+        description: 'Plate number of the vehicle.'
+        required: true
+        example: |-
+          NNNNN23131
+
+           @response {
+              "success": true,
+              "data": {
+                  "message": 'Vehicle exit successful. Parking fee: ' . $parkingFee
+              }
+          }
+        type: string
+        enumValues: []
+        custom: []
+    cleanQueryParameters:
+      plate_number: |-
+        NNNNN23131
+
+         @response {
+            "success": true,
+            "data": {
+                "message": 'Vehicle exit successful. Parking fee: ' . $parkingFee
+            }
+        }
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/check-vehicle-expense
+    metadata:
+      groupName: 'Parking Lot Management'
+      groupDescription: |-
+
+        Handle vehicle entry into the parking lot.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Check the parking fee for a vehicle based on its plate number.'
+      description: 'Show parking fee for this vehicle'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      vehicle_number:
+        name: vehicle_number
+        description: 'Plate number of the vehicle.'
+        required: true
+        example: |-
+          NNNNN23131
+
+           @response {
+              "success": true,
+              "data": {
+                  "message": '12'
+              }
+          }
+        type: string
+        enumValues: []
+        custom: []
+    cleanQueryParameters:
+      vehicle_number: |-
+        NNNNN23131
+
+         @response {
+            "success": true,
+            "data": {
+                "message": '12'
+            }
+        }
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/get-empty-spaces
+    metadata:
+      groupName: 'Parking Lot Management'
+      groupDescription: |-
+
+        Handle vehicle entry into the parking lot.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Return the number of empty spaces in a parking lot.'
+      description: 'Show empty spaces'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+              "success": true,
+              "message": {
+                  "empty_spaces": 10
+              }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

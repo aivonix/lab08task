@@ -15,6 +15,12 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @group Parking Lot Management
+ * 
+ * Handle vehicle entry into the parking lot.
+ *
+ */
 class ParkingLotController extends Controller
 {
     private $emtpy_vehicle = 1;
@@ -23,6 +29,20 @@ class ParkingLotController extends Controller
 
     /**
      * Handle vehicle entry into the parking lot.
+     * 
+     * Enter the vehicles and validate their data
+     * 
+     * @queryParam vehicle_category_id int required Vehicle Category ID. Example: 27
+     * @queryParam plate_number string required Plate number of the vehicle. Example: NNNNN23131
+     * @queryParam discount_card string Discount card code.
+     * 
+     *  @response {
+     *     "success": true,
+     *     "data": {
+     *         "message": "Vehicle entry recorded successfully."
+     *     }
+     * }
+     * @throws \Exception If there is an error.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -100,7 +120,19 @@ class ParkingLotController extends Controller
 
     /**
      * Handle vehicle exit from the parking lot.
-     *
+     * 
+     * Exit the vehicle from the parking lot
+     * 
+     * @queryParam plate_number string required Plate number of the vehicle. Example: NNNNN23131
+     * 
+     *  @response {
+     *     "success": true,
+     *     "data": {
+     *         "message": 'Vehicle exit successful. Parking fee: ' . $parkingFee
+     *     }
+     * }
+     * @throws \Exception If there is an error.
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -113,7 +145,7 @@ class ParkingLotController extends Controller
 
             $vehicle = Vehicle::where('plate_number', $validatedData['plate_number'])->first();
             
-            if (!$vehicle->id) {
+            if (!$vehicle) {
                 throw ValidationException::withMessages(['message' => ['Vehicle not found.']]);
             }
             
@@ -152,6 +184,17 @@ class ParkingLotController extends Controller
     /**
      * Check the parking fee for a vehicle based on its plate number.
      *
+     * Show parking fee for this vehicle
+     * 
+     * @queryParam vehicle_number string required Plate number of the vehicle. Example: NNNNN23131
+     * 
+     *  @response {
+     *     "success": true,
+     *     "data": {
+     *         "message": '12'
+     *     }
+     * }
+     * @throws \Exception If there is an error.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -172,7 +215,7 @@ class ParkingLotController extends Controller
                 return response()->json([
                     'success' => true,
                     'data' => [
-                        'fee' => $fee,
+                        'message' => $fee,
                     ],
                 ]);
             } else {
@@ -190,6 +233,15 @@ class ParkingLotController extends Controller
     /**
      * Return the number of empty spaces in a parking lot.
      *
+     * Show empty spaces
+     * 
+     *  @response {
+     *     "success": true,
+     *     "message": {
+     *         "empty_spaces": 10
+     *     }
+     * }
+     * 
      * @return \Illuminate\Http\JsonResponse
      */
     public function getEmptySpaces(): JsonResponse

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Vehicle extends Model
 {
- /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -46,6 +47,9 @@ class Vehicle extends Model
     /**
      * Get the category associated with the vehicle.
      */
+    
+    use HasFactory;
+
     public function category()
     {
         return $this->belongsTo(VehicleCategory::class, 'category_id');

@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "3126b16d-ddfe-4a42-a986-32e62f291cff",
+        "_postman_id": "44adead0-8e05-4b02-89d5-c401297db1b4",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -66,15 +66,40 @@
                             "name": ""
                         }
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "name": "Parking Lot Management",
+            "description": "\nHandle vehicle entry into the parking lot.",
+            "item": [
                 {
                     "name": "Handle vehicle entry into the parking lot.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
                             "path": "api\/v1\/enter-parking",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/enter-parking"
+                            "query": [
+                                {
+                                    "key": "vehicle_category_id",
+                                    "value": "27",
+                                    "description": "Vehicle Category ID.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "plate_number",
+                                    "value": "NNNNN23131",
+                                    "description": "Plate number of the vehicle.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "discount_card",
+                                    "value": "quis",
+                                    "description": "Discount card code.\n\n @response {\n    \"success\": true,\n    \"data\": {\n        \"message\": \"Vehicle entry recorded successfully.\"\n    }\n}",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/enter-parking?vehicle_category_id=27&plate_number=NNNNN23131&discount_card=quis"
                         },
                         "method": "POST",
                         "header": [
@@ -88,7 +113,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
+                        "description": "Enter the vehicles and validate their data",
                         "auth": {
                             "type": "noauth"
                         }
@@ -101,8 +126,15 @@
                         "url": {
                             "host": "{{baseUrl}}",
                             "path": "api\/v1\/exit-parking",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/exit-parking"
+                            "query": [
+                                {
+                                    "key": "plate_number",
+                                    "value": "NNNNN23131%0A%0A+%40response+%7B%0A++++%22success%22%3A+true%2C%0A++++%22data%22%3A+%7B%0A++++++++%22message%22%3A+%27Vehicle+exit+successful.+Parking+fee%3A+%27+.+%24parkingFee%0A++++%7D%0A%7D",
+                                    "description": "Plate number of the vehicle.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/exit-parking?plate_number=NNNNN23131%0A%0A+%40response+%7B%0A++++%22success%22%3A+true%2C%0A++++%22data%22%3A+%7B%0A++++++++%22message%22%3A+%27Vehicle+exit+successful.+Parking+fee%3A+%27+.+%24parkingFee%0A++++%7D%0A%7D"
                         },
                         "method": "POST",
                         "header": [
@@ -116,7 +148,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
+                        "description": "Exit the vehicle from the parking lot",
                         "auth": {
                             "type": "noauth"
                         }
@@ -129,8 +161,15 @@
                         "url": {
                             "host": "{{baseUrl}}",
                             "path": "api\/v1\/check-vehicle-expense",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/check-vehicle-expense"
+                            "query": [
+                                {
+                                    "key": "vehicle_number",
+                                    "value": "NNNNN23131%0A%0A+%40response+%7B%0A++++%22success%22%3A+true%2C%0A++++%22data%22%3A+%7B%0A++++++++%22message%22%3A+%2712%27%0A++++%7D%0A%7D",
+                                    "description": "Plate number of the vehicle.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/check-vehicle-expense?vehicle_number=NNNNN23131%0A%0A+%40response+%7B%0A++++%22success%22%3A+true%2C%0A++++%22data%22%3A+%7B%0A++++++++%22message%22%3A+%2712%27%0A++++%7D%0A%7D"
                         },
                         "method": "POST",
                         "header": [
@@ -144,7 +183,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
+                        "description": "Show parking fee for this vehicle",
                         "auth": {
                             "type": "noauth"
                         }
@@ -172,37 +211,16 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
+                        "description": "Show empty spaces",
                         "auth": {
                             "type": "noauth"
                         }
                     },
                     "response": [
                         {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "60"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "57"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
+                            "header": [],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":{\"empty_spaces\":3}}",
+                            "body": "{\n    \"success\": true,\n    \"message\": {\n        \"empty_spaces\": 10\n    }\n}",
                             "name": ""
                         }
                     ]

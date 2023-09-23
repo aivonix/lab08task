@@ -33,37 +33,87 @@ paths:
     post:
       summary: 'Handle vehicle entry into the parking lot.'
       operationId: handleVehicleEntryIntoTheParkingLot
-      description: ''
-      parameters: []
+      description: 'Enter the vehicles and validate their data'
+      parameters:
+        -
+          in: query
+          name: vehicle_category_id
+          description: 'Vehicle Category ID.'
+          example: 27
+          required: true
+          schema:
+            type: integer
+            description: 'Vehicle Category ID.'
+            example: 27
+        -
+          in: query
+          name: plate_number
+          description: 'Plate number of the vehicle.'
+          example: NNNNN23131
+          required: true
+          schema:
+            type: string
+            description: 'Plate number of the vehicle.'
+            example: NNNNN23131
+        -
+          in: query
+          name: discount_card
+          description: "Discount card code.\n\n @response {\n    \"success\": true,\n    \"data\": {\n        \"message\": \"Vehicle entry recorded successfully.\"\n    }\n}"
+          example: quis
+          required: false
+          schema:
+            type: string
+            description: "Discount card code.\n\n @response {\n    \"success\": true,\n    \"data\": {\n        \"message\": \"Vehicle entry recorded successfully.\"\n    }\n}"
+            example: quis
       responses: {  }
       tags:
-        - Endpoints
+        - 'Parking Lot Management'
       security: []
   /api/v1/exit-parking:
     post:
       summary: 'Handle vehicle exit from the parking lot.'
       operationId: handleVehicleExitFromTheParkingLot
-      description: ''
-      parameters: []
+      description: 'Exit the vehicle from the parking lot'
+      parameters:
+        -
+          in: query
+          name: plate_number
+          description: 'Plate number of the vehicle.'
+          example: "NNNNN23131\n\n @response {\n    \"success\": true,\n    \"data\": {\n        \"message\": 'Vehicle exit successful. Parking fee: ' . $parkingFee\n    }\n}"
+          required: true
+          schema:
+            type: string
+            description: 'Plate number of the vehicle.'
+            example: "NNNNN23131\n\n @response {\n    \"success\": true,\n    \"data\": {\n        \"message\": 'Vehicle exit successful. Parking fee: ' . $parkingFee\n    }\n}"
       responses: {  }
       tags:
-        - Endpoints
+        - 'Parking Lot Management'
       security: []
   /api/v1/check-vehicle-expense:
     post:
       summary: 'Check the parking fee for a vehicle based on its plate number.'
       operationId: checkTheParkingFeeForAVehicleBasedOnItsPlateNumber
-      description: ''
-      parameters: []
+      description: 'Show parking fee for this vehicle'
+      parameters:
+        -
+          in: query
+          name: vehicle_number
+          description: 'Plate number of the vehicle.'
+          example: "NNNNN23131\n\n @response {\n    \"success\": true,\n    \"data\": {\n        \"message\": '12'\n    }\n}"
+          required: true
+          schema:
+            type: string
+            description: 'Plate number of the vehicle.'
+            example: "NNNNN23131\n\n @response {\n    \"success\": true,\n    \"data\": {\n        \"message\": '12'\n    }\n}"
       responses: {  }
       tags:
-        - Endpoints
+        - 'Parking Lot Management'
       security: []
   /api/v1/get-empty-spaces:
     get:
       summary: 'Return the number of empty spaces in a parking lot.'
       operationId: returnTheNumberOfEmptySpacesInAParkingLot
-      description: ''
+      description: 'Show empty spaces'
       parameters: []
       responses:
         200:
@@ -75,7 +125,7 @@ paths:
                 example:
                   success: true
                   message:
-                    empty_spaces: 3
+                    empty_spaces: 10
                 properties:
                   success:
                     type: boolean
@@ -85,11 +135,14 @@ paths:
                     properties:
                       empty_spaces:
                         type: integer
-                        example: 3
+                        example: 10
       tags:
-        - Endpoints
+        - 'Parking Lot Management'
       security: []
 tags:
   -
     name: Endpoints
     description: ''
+  -
+    name: 'Parking Lot Management'
+    description: "\nHandle vehicle entry into the parking lot."

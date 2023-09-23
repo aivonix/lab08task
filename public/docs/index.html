@@ -74,17 +74,24 @@
                                                     <li class="tocify-item level-2" data-unique="endpoints-GETapi-user">
                                 <a href="#endpoints-GETapi-user">GET api/user</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-enter-parking">
-                                <a href="#endpoints-POSTapi-v1-enter-parking">Handle vehicle entry into the parking lot.</a>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-parking-lot-management" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="parking-lot-management">
+                    <a href="#parking-lot-management">Parking Lot Management</a>
+                </li>
+                                    <ul id="tocify-subheader-parking-lot-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="parking-lot-management-POSTapi-v1-enter-parking">
+                                <a href="#parking-lot-management-POSTapi-v1-enter-parking">Handle vehicle entry into the parking lot.</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-exit-parking">
-                                <a href="#endpoints-POSTapi-v1-exit-parking">Handle vehicle exit from the parking lot.</a>
+                                                                                <li class="tocify-item level-2" data-unique="parking-lot-management-POSTapi-v1-exit-parking">
+                                <a href="#parking-lot-management-POSTapi-v1-exit-parking">Handle vehicle exit from the parking lot.</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-check-vehicle-expense">
-                                <a href="#endpoints-POSTapi-v1-check-vehicle-expense">Check the parking fee for a vehicle based on its plate number.</a>
+                                                                                <li class="tocify-item level-2" data-unique="parking-lot-management-POSTapi-v1-check-vehicle-expense">
+                                <a href="#parking-lot-management-POSTapi-v1-check-vehicle-expense">Check the parking fee for a vehicle based on its plate number.</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-get-empty-spaces">
-                                <a href="#endpoints-GETapi-v1-get-empty-spaces">Return the number of empty spaces in a parking lot.</a>
+                                                                                <li class="tocify-item level-2" data-unique="parking-lot-management-GETapi-v1-get-empty-spaces">
+                                <a href="#parking-lot-management-GETapi-v1-get-empty-spaces">Return the number of empty spaces in a parking lot.</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -243,12 +250,16 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-POSTapi-v1-enter-parking">Handle vehicle entry into the parking lot.</h2>
+                <h1 id="parking-lot-management">Parking Lot Management</h1>
+
+    <p>Handle vehicle entry into the parking lot.</p>
+
+                                <h2 id="parking-lot-management-POSTapi-v1-enter-parking">Handle vehicle entry into the parking lot.</h2>
 
 <p>
 </p>
 
-
+<p>Enter the vehicles and validate their data</p>
 
 <span id="example-requests-POSTapi-v1-enter-parking">
 <blockquote>Example request:</blockquote>
@@ -256,7 +267,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/v1/enter-parking" \
+    "http://localhost/api/v1/enter-parking?vehicle_category_id=27&amp;plate_number=NNNNN23131&amp;discount_card=quis" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -265,6 +276,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-javascript">const url = new URL(
     "http://localhost/api/v1/enter-parking"
 );
+
+const params = {
+    "vehicle_category_id": "27",
+    "plate_number": "NNNNN23131",
+    "discount_card": "quis",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
     "Content-Type": "application/json",
@@ -349,14 +368,54 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>vehicle_category_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="vehicle_category_id"                data-endpoint="POSTapi-v1-enter-parking"
+               value="27"
+               data-component="query">
+    <br>
+<p>Vehicle Category ID. Example: <code>27</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>plate_number</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="plate_number"                data-endpoint="POSTapi-v1-enter-parking"
+               value="NNNNN23131"
+               data-component="query">
+    <br>
+<p>Plate number of the vehicle. Example: <code>NNNNN23131</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>discount_card</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="discount_card"                data-endpoint="POSTapi-v1-enter-parking"
+               value="quis"
+               data-component="query">
+    <br>
+<p>Discount card code.</p>
+<p>@response {
+&quot;success&quot;: true,
+&quot;data&quot;: {
+&quot;message&quot;: &quot;Vehicle entry recorded successfully.&quot;
+}
+} Example: <code>quis</code></p>
+            </div>
+                </form>
 
-                    <h2 id="endpoints-POSTapi-v1-exit-parking">Handle vehicle exit from the parking lot.</h2>
+                    <h2 id="parking-lot-management-POSTapi-v1-exit-parking">Handle vehicle exit from the parking lot.</h2>
 
 <p>
 </p>
 
-
+<p>Exit the vehicle from the parking lot</p>
 
 <span id="example-requests-POSTapi-v1-exit-parking">
 <blockquote>Example request:</blockquote>
@@ -364,7 +423,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/v1/exit-parking" \
+    "http://localhost/api/v1/exit-parking?plate_number=NNNNN23131%0A%0A+%40response+%7B%0A++++%22success%22%3A+true%2C%0A++++%22data%22%3A+%7B%0A++++++++%22message%22%3A+%27Vehicle+exit+successful.+Parking+fee%3A+%27+.+%24parkingFee%0A++++%7D%0A%7D" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -373,6 +432,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-javascript">const url = new URL(
     "http://localhost/api/v1/exit-parking"
 );
+
+const params = {
+    "plate_number": "NNNNN23131
+
+ @response {
+    "success": true,
+    "data": {
+        "message": 'Vehicle exit successful. Parking fee: ' . $parkingFee
+    }
+}",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
     "Content-Type": "application/json",
@@ -457,14 +529,39 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>plate_number</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="plate_number"                data-endpoint="POSTapi-v1-exit-parking"
+               value="NNNNN23131
 
-                    <h2 id="endpoints-POSTapi-v1-check-vehicle-expense">Check the parking fee for a vehicle based on its plate number.</h2>
+ @response {
+    "success": true,
+    "data": {
+        "message": 'Vehicle exit successful. Parking fee: ' . $parkingFee
+    }
+}"
+               data-component="query">
+    <br>
+<p>Plate number of the vehicle. Example: `NNNNN23131</p>
+<p>@response {
+&quot;success&quot;: true,
+&quot;data&quot;: {
+&quot;message&quot;: 'Vehicle exit successful. Parking fee: ' . $parkingFee
+}
+}`</p>
+            </div>
+                </form>
+
+                    <h2 id="parking-lot-management-POSTapi-v1-check-vehicle-expense">Check the parking fee for a vehicle based on its plate number.</h2>
 
 <p>
 </p>
 
-
+<p>Show parking fee for this vehicle</p>
 
 <span id="example-requests-POSTapi-v1-check-vehicle-expense">
 <blockquote>Example request:</blockquote>
@@ -472,7 +569,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/v1/check-vehicle-expense" \
+    "http://localhost/api/v1/check-vehicle-expense?vehicle_number=NNNNN23131%0A%0A+%40response+%7B%0A++++%22success%22%3A+true%2C%0A++++%22data%22%3A+%7B%0A++++++++%22message%22%3A+%2712%27%0A++++%7D%0A%7D" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -481,6 +578,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-javascript">const url = new URL(
     "http://localhost/api/v1/check-vehicle-expense"
 );
+
+const params = {
+    "vehicle_number": "NNNNN23131
+
+ @response {
+    "success": true,
+    "data": {
+        "message": '12'
+    }
+}",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
     "Content-Type": "application/json",
@@ -565,14 +675,39 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>vehicle_number</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="vehicle_number"                data-endpoint="POSTapi-v1-check-vehicle-expense"
+               value="NNNNN23131
 
-                    <h2 id="endpoints-GETapi-v1-get-empty-spaces">Return the number of empty spaces in a parking lot.</h2>
+ @response {
+    "success": true,
+    "data": {
+        "message": '12'
+    }
+}"
+               data-component="query">
+    <br>
+<p>Plate number of the vehicle. Example: `NNNNN23131</p>
+<p>@response {
+&quot;success&quot;: true,
+&quot;data&quot;: {
+&quot;message&quot;: '12'
+}
+}`</p>
+            </div>
+                </form>
+
+                    <h2 id="parking-lot-management-GETapi-v1-get-empty-spaces">Return the number of empty spaces in a parking lot.</h2>
 
 <p>
 </p>
 
-
+<p>Show empty spaces</p>
 
 <span id="example-requests-GETapi-v1-get-empty-spaces">
 <blockquote>Example request:</blockquote>
@@ -606,21 +741,12 @@ fetch(url, {
             <blockquote>
             <p>Example response (200):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-x-ratelimit-limit: 60
-x-ratelimit-remaining: 57
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: true,
     &quot;message&quot;: {
-        &quot;empty_spaces&quot;: 3
+        &quot;empty_spaces&quot;: 10
     }
 }</code>
  </pre>
