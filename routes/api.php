@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\ParkingLotController;
+use App\Http\Controllers\API\v1\ParkingLotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +19,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/check-vehicle-expense', [ParkingLotController::class, 'checkVehicleExpense'])->name('api-check-vehicle-expense');
-Route::post('/api/enter-parking', [ParkingLotController::class, 'enterParking']);
+Route::post('/v1/enter-parking', [ParkingLotController::class, 'enterParking'])->name('api-process-entry');
+Route::post('/v1/exit-parking', [ParkingLotController::class, 'exitParking'])->name('api-exit-parking');
+
+Route::post('/v1/check-vehicle-expense', [ParkingLotController::class, 'checkVehicleExpense'])->name('api-check-vehicle-expense');
+Route::get('/v1/get-empty-spaces', [ParkingLotController::class, 'getEmptySpaces'])->name('api-get-empty-spaces');
+
+

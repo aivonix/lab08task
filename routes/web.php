@@ -19,15 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('homepage');
 
+Route::get('/parking-lot-empty-spaces', [ParkingController::class, 'showEmptySpacesForm'])->name('empty-spaces-form');
+Route::get('/check-vehicle-expense', [ParkingController::class, 'checkVehicleExpenseForm'])->name('check-expense-form');
 
-Route::get('/parking-lot-empty-spaces', [ParkingController::class, 'getEmptySpaces'])->name('parking.empty-spaces');
-Route::get('/check-vehicle-expense', [ParkingController::class, 'checkVehicleExpense'])->name('check-vehicle-expense');
-
-Route::get('/enter-parking', [ParkingController::class, 'showEntryForm'])->name('enter-parking');
-Route::post('/enter-parking', [ParkingController::class, 'enterParking'])->name('process-entry');
+Route::get('/enter-parking', [ParkingController::class, 'showEntryForm'])->name('enter-form');
 
 Route::get('/exit-parking', [ParkingController::class, 'showExitForm'])->name('exit-form');
-Route::post('/exit-parking', [ParkingController::class, 'exitParking'])->name('exit-parking');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

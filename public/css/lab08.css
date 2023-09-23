@@ -4,6 +4,6 @@
 .discountCard.hidden{
     display: none;
 }
-button[type="submit"]{
+button[type="submit"], .someBg{
     background: #bbdec8!important;
 }

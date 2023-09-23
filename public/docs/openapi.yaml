@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/enter-parking:
+    post:
+      summary: 'Handle vehicle entry into the parking lot.'
+      operationId: handleVehicleEntryIntoTheParkingLot
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/exit-parking:
+    post:
+      summary: 'Handle vehicle exit from the parking lot.'
+      operationId: handleVehicleExitFromTheParkingLot
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/check-vehicle-expense:
+    post:
+      summary: 'Check the parking fee for a vehicle based on its plate number.'
+      operationId: checkTheParkingFeeForAVehicleBasedOnItsPlateNumber
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/get-empty-spaces:
+    get:
+      summary: 'Return the number of empty spaces in a parking lot.'
+      operationId: returnTheNumberOfEmptySpacesInAParkingLot
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message:
+                    empty_spaces: 3
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: object
+                    properties:
+                      empty_spaces:
+                        type: integer
+                        example: 3
+      tags:
+        - Endpoints
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''

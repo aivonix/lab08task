@@ -13,7 +13,7 @@
                         </div>
                     @endif
                     <h1>Exit the parking</h1>
-                    <form method="POST" action="{{ route('exit-parking') }}">
+                    <form method="POST" action="{{ route('api-exit-parking') }}">
                         @csrf
                         <div class="form-group">
                             <label for="plate_number">Plate number of the vehicle:</label>

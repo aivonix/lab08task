@@ -13,7 +13,7 @@
                         </div>
                     @endif
                     <h1>Enter the parking</h1>
-                    <form action="{{ route('process-entry') }}" method="post">
+                    <form action="{{ route('api-process-entry') }}" method="post">
                         @csrf
                         <p>
                             <label for="vehicle_category">Vehicle Category:</label>
