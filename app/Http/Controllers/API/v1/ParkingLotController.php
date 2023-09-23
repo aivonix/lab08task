@@ -64,10 +64,11 @@ class ParkingLotController extends Controller
                 $validatedData['discount_card'] = $temp['discount_card'];
             }
             $vehicle = Vehicle::firstOrCreate(['plate_number' => $validatedData['plate_number']]);
-            if($vehicle->wasRecentlyCreated){
-                $vehicle->discount_id = $this->default_discount;  // default 0 percentage discount id
-                $vehicle->category_id = $validatedData['vehicle_category_id'];
+            if(!$vehicle->wasRecentlyCreated){
+                throw ValidationException::withMessages(['discount_card' => ['You are already registered in the Parking lot. Please exit before entering again.']]);
             }
+            $vehicle->discount_id = $this->default_discount;  // default 0 percentage discount id
+            $vehicle->category_id = $validatedData['vehicle_category_id'];
             $vehicle->save();
             
             if(!empty($request->discount_card)){

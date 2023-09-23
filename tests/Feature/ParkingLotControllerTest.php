@@ -21,7 +21,6 @@ class ParkingLotControllerTest extends TestCase
     public function testVehicleEntersParkingLotSuccessfully()
     {
         $this->seed();
-        // $this->refreshDatabase();
         $vehicle = Vehicle::all()->last();
 
         $response = $this->postJson('/api/v1/enter-parking', [
@@ -121,6 +120,7 @@ class ParkingLotControllerTest extends TestCase
  
     public function testGetEmptySpaces()
     {
+        // This needs to be changed, was tested with 5x5 parking lot size
         $expectedEmptySpaces = 22;
         $response = $this->json('GET', '/api/v1/get-empty-spaces');
 

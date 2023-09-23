@@ -16,9 +16,9 @@ class ParkingLotSeeder extends Seeder
     {
         DB::table('parking_lots')->insert([
             'name' => 'lab08',
-            'size' => '5x5',
-            'capacity' => 25,
-            'empty_slots' => 25,
+            'size' => '10x20',
+            'capacity' => 200,
+            'empty_slots' => 200,
         ]);
     }
 }
