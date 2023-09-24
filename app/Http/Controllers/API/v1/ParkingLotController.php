@@ -64,7 +64,7 @@ class ParkingLotController extends Controller
                 $validatedData['discount_card'] = $temp['discount_card'];
             }
             $vehicle = Vehicle::firstOrCreate(['plate_number' => $validatedData['plate_number']]);
-            if(!$vehicle->wasRecentlyCreated){
+            if(!$vehicle->wasRecentlyCreated && count($vehicle->parking) > 0){
                 throw ValidationException::withMessages(['discount_card' => ['You are already registered in the Parking lot. Please exit before entering again.']]);
             }
             $vehicle->discount_id = $this->default_discount;  // default 0 percentage discount id
@@ -328,9 +328,10 @@ class ParkingLotController extends Controller
 
             // Check horizontally for available slots
             $horizontalSlots = [];
+            $currLetterNumber = generateNumberFromParkingLabel($letters);
             for ($i = 0; $i < $vehicleSize; $i++) {
-                // TODO: In case of bigger parking lot sizes, and different naming convetion e.g. AA AB etc, this and generateLetterParkingName() need to be reworked, leaving it for now.
-                $currentParking = chr(ord($letters)+ $i) . $digits;
+                $currLetter = generateParkingLabel($currLetterNumber+$i);
+                $currentParking = $currLetter . $digits;
                 if (in_array($currentParking, $availableParkings)) {
                     $horizontalSlots[] = $currentParking;
                 }

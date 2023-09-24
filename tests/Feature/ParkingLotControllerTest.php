@@ -21,13 +21,13 @@ class ParkingLotControllerTest extends TestCase
     public function testVehicleEntersParkingLotSuccessfully()
     {
         $this->seed();
-        $vehicle = Vehicle::all()->last();
-
+        $vehicle = Vehicle::factory()->create();
+        // Create a new vehicle
+        
         $response = $this->postJson('/api/v1/enter-parking', [
             'vehicle_category_id' => $vehicle->category_id,
             'plate_number' => $vehicle->plate_number,
         ]);
-
         $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
@@ -120,8 +120,8 @@ class ParkingLotControllerTest extends TestCase
  
     public function testGetEmptySpaces()
     {
-        // This needs to be changed, was tested with 5x5 parking lot size
-        $expectedEmptySpaces = 22;
+        // This needs to be changed, was tested with 5x5 parking lot size and was 22
+        $expectedEmptySpaces = 197;
         $response = $this->json('GET', '/api/v1/get-empty-spaces');
 
         $response->assertJson([
